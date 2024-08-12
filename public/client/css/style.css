@@ -257,6 +257,8 @@
   
   .chat .inner-body {
     padding: 10px;
+    max-height: 450px;
+    overflow-y: scroll;
   }
   
   .chat .inner-body .inner-name {
@@ -307,5 +309,15 @@
     cursor: pointer;
   }
   /* End chat */
+
+  /* Popup-icon */
+  .tooltip {
+    visibility: hidden;
+  }
+  .tooltip.shown {
+    visibility: visible;
+    opacity: 1;
+  }
+  /* End Popup-icon */
 
 
