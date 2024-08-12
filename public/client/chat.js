@@ -12,11 +12,12 @@ if(formChat){
       });
     }
     event.target.content.value = "";
+    socket.emit("CLIENT_SEND_TYPING", "hidden");
   });
 }
 
 socket.on("SEVER_SEND_MESSAGES", (data) => {
-  console.log(data);
+  
   const myId = document.querySelector(".chat").getAttribute("my-id")
   let div = document.createElement("div");
   let htmlFullName = "";
@@ -67,5 +68,47 @@ if(button){
   });
 }
 // End Popup Icon
+
+// Typing
+var typingTimeOut;
+const input = document.querySelector(".inner-form input[name='content']");
+if(input){
+  input.addEventListener("keyup", () => {
+    socket.emit("CLIENT_SEND_TYPING", "show");
+    clearTimeout(typingTimeOut);
+    
+    typingTimeOut = setTimeout( ()=> {
+      socket.emit("CLIENT_SEND_TYPING", "hidden");
+    }, 3000);
+  });
+  // setTimeout( ()=> {
+  //   socket.emit("CLIENT_SEND_TYPING", "hidden");
+  // }, 3000);
+
+}
+// End Typing
+
+// SERVER_RETURN_TYPING
+const listTyping = document.querySelector(".chat .inner-list-typing");
+socket.on("SERVER_RETURN_TYPING", (data)=> {
+  if(data.typing == "show"){
+    const existTyping = listTyping.querySelector(`.box-typing[user-id="${data.userId}"]`);
+    if(!existTyping){
+      const divTyping = document.createElement("div");
+      divTyping.classList.add("box-typing");
+      divTyping.setAttribute("user-id", `${data.userId}`);
+      divTyping.innerHTML = 
+        `<div class="inner-name">${data.fullName}</div>
+        <div class="inner-dots"><span></span><span></span><span></span></div>`;
+      listTyping.appendChild(divTyping);
+    }
+  }
+  else{
+    const boxTyping = listTyping.querySelector(`.box-typing[user-id="${data.userId}"]`);
+    if(boxTyping)
+      listTyping.removeChild(boxTyping);
+  }
+});
+// End SERVER_RETURN_TYPING
 
 

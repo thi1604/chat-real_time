@@ -20,6 +20,16 @@ module.exports.chat = async (req, res) => {
       });
     });
     
+    // typing
+    socket.on("CLIENT_SEND_TYPING", (data) => {
+      socket.broadcast.emit("SERVER_RETURN_TYPING", {
+        userId: idUser,
+        fullName: user.fullName,
+        typing: data
+      });
+    });
+    // End typing
+    
   });
 
   const chats = await chatModel.find({});
