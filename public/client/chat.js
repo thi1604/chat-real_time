@@ -1,18 +1,31 @@
 var socket = io();
 import * as Popper from 'https://cdn.jsdelivr.net/npm/@popperjs/core@^2/dist/esm/index.js'
 
+//Upload anh
+// import { FileUploadWithPreview } from 'file-upload-with-preview';
+// import 'file-upload-with-preview/dist/style.css';
+// const upload = new FileUploadWithPreview('image-preview');
+//End upload anh
+
 const formChat = document.querySelector(".chat .inner-form");
 if(formChat){
+  const upload = new FileUploadWithPreview.FileUploadWithPreview('image-preview', {
+    multiple: true,
+    maxFileCount: 6
+  });
   formChat.addEventListener("submit", (event)=> {
     event.preventDefault();
-    const content = event.target.content.value;
-    if(content){
+    const content = event.target.content.value || ""; 
+    const listImages = upload.cachedFileArray;
+    if(content || listImages.length > 0){
       socket.emit("CLIENT_SEND_MESSAGES", {
-        content: content
+        content: content,
+        images: listImages
       });
     }
     event.target.content.value = "";
-    socket.emit("CLIENT_SEND_TYPING", "hidden");
+    upload.resetPreviewPanel();
+    // socket.emit("CLIENT_SEND_TYPING", "hidden");
   });
 }
 
@@ -21,16 +34,35 @@ socket.on("SEVER_SEND_MESSAGES", (data) => {
   const myId = document.querySelector(".chat").getAttribute("my-id")
   let div = document.createElement("div");
   let htmlFullName = "";
+  let htmlContent = "";
+  let htmlImages = "";
   if(data.userId == myId){
     div.classList.add("inner-outgoing");
   }else{
     div.classList.add("inner-incoming");
     htmlFullName = `<div class="inner-name">${data.fullName}</div>`;
+  }
+  if(data.content){
+    htmlContent = ` <div class="inner-content">${data.content}</div>`;
+  }
+  if(data.listImages.length > 0) {
+    htmlImages += `
+      <div class="inner-images">
+    `;
+
+    for(const linkImage of data.listImages){
+      htmlImages += `<img src=${linkImage}>
+      `;
+    }
+
+    htmlImages += "</div>";
 
   }
+
   div.innerHTML = `
     ${htmlFullName}
-    <div class="inner-content">${data.content}</div>
+    ${htmlContent}
+    ${htmlImages}
     `;
   const body = document.querySelector(".inner-body");
   body.appendChild(div);
