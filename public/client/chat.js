@@ -68,6 +68,7 @@ socket.on("SEVER_SEND_MESSAGES", (data) => {
   body.appendChild(div);
 
   body.scrollTop = body.scrollHeight;
+  new Viewer(div);
 })
 
 // Scroll Chat To Bottom
@@ -101,6 +102,12 @@ if(button){
 }
 // End Popup Icon
 
+//Preview images
+if(bodyChat){
+  new Viewer(bodyChat)
+}
+//End Preview images
+
 // Typing
 var typingTimeOut;
 const input = document.querySelector(".inner-form input[name='content']");
@@ -132,6 +139,7 @@ socket.on("SERVER_RETURN_TYPING", (data)=> {
       divTyping.innerHTML = 
         `<div class="inner-name">${data.fullName}</div>
         <div class="inner-dots"><span></span><span></span><span></span></div>`;
+
       listTyping.appendChild(divTyping);
     }
   }
