@@ -13,6 +13,4 @@ router.post("/login", controller.loginPost);
 
 router.get("/logout", controller.logout);
 
-router.get("/not-friend", controller.notFriend);
-
 module.exports = router;
