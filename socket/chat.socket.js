@@ -43,7 +43,6 @@ module.exports = async (req, res) => {
         typing: data
       });
     });
-    // End typing
-    
+    // End typing    
   });
 };

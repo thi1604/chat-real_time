@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const chatSchema = new mongoose.Schema({
   userId: String,
   content: String,
-  images: Array
+  images: Array,
 }, {
   timestamps: true
 });
