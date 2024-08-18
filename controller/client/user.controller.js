@@ -84,3 +84,18 @@ module.exports.logout = async (req, res) => {
   res.clearCookie("tokenUser");
   res.redirect("/user/login");
 }
+
+
+module.exports.notFriend = async (req, res) => {
+  const idUser = res.locals.user.id;
+  const listNotFriend = await userModel.find({
+    _id: {$ne : idUser},
+    status: "active",
+    deleted: false
+  }).select("fullName id avatar");
+  
+  res.render("client/pages/user/not-friend.pug", {
+    pageTitle: "Danh sách người dùng",
+    listNotFriend: listNotFriend
+  });
+}
