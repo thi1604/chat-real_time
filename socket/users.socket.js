@@ -39,11 +39,12 @@ module.exports = async (req, res) => {
         });
       }
     //End Cap nhat danh sach acceptFriends cua ongB 
+    
     // End addFriend
 
   })
   
-  // Huy ket ban
+  // A huy ket ban
     socket.on("CLIENT_SEND_CANCEL_FRIEND", async (data) => {
       const idB = data.idB;
       const idA = res.locals.user.id;
@@ -68,7 +69,66 @@ module.exports = async (req, res) => {
       //End Cap nhat danh sach chap nhan kb cua ong B
 
     });
-  // End Huy ket ban
+  // End A huy ket ban
+
+  //A dong y ket ban vs B
+    socket.on("CLIENT_SEND_ACCEPT_FRIEND", async (data)=>{
+      const idA = res.locals.user.id;
+      const idB = data.idB;
+      const IdBInAcceptidA = await userModel.findOne({
+        $and: [
+          {_id: idA},
+          {
+            friendsList: idB
+          }
+        ]
+      });
+      //Kiem tra xem A va B da la ban chua, neu chua thi moi cap nhat
+      if(!IdBInAcceptidA){
+        //Cap nhat danh sach acceptFriend, FriendList cua A
+        await userModel.updateOne({
+          _id: idA
+        }, {
+          $pull: {
+            acceptFriends: idB
+          }
+        });
+        //End Cap nhat danh sach acceptFriend, FriendList cua A
+
+        await userModel.updateOne({
+          _id: idA
+        }, {
+          $push: {
+            friendsList: {
+              userId: idB,
+              roomChatId: ""
+            }
+          }
+        });
+
+        //Cap nhat danh sach request cua B, FriendList cua B
+        await userModel.updateOne({
+          _id: idB
+        }, {
+          $pull: {
+            requestFriends: idA
+          }
+        });
+
+        await userModel.updateOne({
+          _id: idB
+        }, {
+          $push: {
+            friendsList: {
+              userId: idA,
+              roomChatId: ""
+            }
+          }
+        });
+      }
+        //End Cap nhat danh sach request cua B, FriendList cua B
+    })
+  //End B dong y ket ban vs A
   });
 }
 

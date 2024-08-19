@@ -30,3 +30,19 @@ if(buttonsCancel.length > 0){
 }
 
 //End Huy yeu cau ket ban
+
+
+//Chap nhan ket ban
+const buttonsAccept = document.querySelectorAll("[btn-accept-friend]");
+if(buttonsAccept.length > 0){
+  buttonsAccept.forEach((item)=> {
+    item.addEventListener("click", ()=> {
+      item.closest(".box-user").classList.add("accepted");
+      const userIdB = item.getAttribute("btn-accept-friend");
+      socket.emit("CLIENT_SEND_ACCEPT_FRIEND", {
+        idB: userIdB
+      });
+    });
+  });
+}
+//Chap nhan ket ban

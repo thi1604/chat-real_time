@@ -58,3 +58,26 @@ module.exports.request = async (req, res) => {
 
 }
 //End Danh sách yêu cầu kết bạn
+
+// Danh sach chap nhan ket ban
+module.exports.accept = async (req, res) => {
+
+  const acceptFriends = res.locals.user.acceptFriends;
+
+  await usersSocket(req, res);
+  
+  const listAcceptFriend = await userModel.find({
+    _id: {
+      $in: acceptFriends
+    },
+    status: "active",
+    deleted: false
+  }).select("fullName id avatar");
+
+  res.render("client/pages/users/accept.pug", {
+    pageTitle: "Trang chấp nhận kết bạn",
+    users: listAcceptFriend
+  })
+
+}
+//End Danh sach chap nhan ket ban
