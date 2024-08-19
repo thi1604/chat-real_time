@@ -5,10 +5,21 @@ const usersSocket = require("../../socket/users.socket");
 module.exports.notFriend = async (req, res) => {
   const idUser = res.locals.user.id;
 
+  const requestFriends = res.locals.user.requestFriends;
+  const acceptFriends = res.locals.user.acceptFriends;
+  const friendsList = res.locals.user.friendsList;
+  const friendsListId = friendsList.map(item => item.userId);
+
+
   await usersSocket(req, res);
 
   const listNotFriend = await userModel.find({
-    _id: {$ne : idUser},
+    $and: [
+      {_id: {$ne: idUser}},
+      {_id: {$nin: acceptFriends}},
+      {_id: {$nin: requestFriends}}, 
+      {_id: {$nin: friendsListId}}    // $nin va $in: chi chap nhan 1 mang id, khong chap nhan object !!!
+    ],
     status: "active",
     deleted: false
   }).select("fullName id avatar");
