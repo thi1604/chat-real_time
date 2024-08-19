@@ -46,3 +46,18 @@ if(buttonsAccept.length > 0){
   });
 }
 //Chap nhan ket ban
+
+//!chap nhan ket ban
+const buttonsRefuse = document.querySelectorAll("[btn-refuse-friend]");
+if(buttonsRefuse.length > 0){
+  buttonsRefuse.forEach((item)=> {
+    item.addEventListener("click", ()=> {
+      item.closest(".box-user").classList.add("refuse");
+      const userIdB = item.getAttribute("btn-refuse-friend");
+      socket.emit("CLIENT_SEND_REFUSE_FRIEND", {
+        idB: userIdB
+      });
+    });
+  });
+}
+//End !chap nhan ket ban

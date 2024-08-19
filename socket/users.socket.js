@@ -128,7 +128,34 @@ module.exports = async (req, res) => {
       }
         //End Cap nhat danh sach request cua B, FriendList cua B
     })
-  //End B dong y ket ban vs A
+  //End A dong y ket ban vs B
+  
+  //A !dong y ket ban B
+    socket.on("CLIENT_SEND_REFUSE_FRIEND", async (data)=> {
+      const idA = res.locals.user.id;
+      const idB = data.idB;
+      //Cap nhat acceptFriend cua A
+      await userModel.updateOne({
+        _id: idA
+      }, {
+        $pull: {
+          acceptFriends: idB
+        }
+      });
+      //End Cap nhat acceptFriend cua A
+  
+      //Cap nhat requestFriend cua B
+      await userModel.updateOne({
+        _id: idB
+      }, {
+        $pull: {
+          requestFriends: idA
+        }
+      });
+      //End Cap nhat requestFriend cua B
+    })
+  //End A !dong y ket ban B
+
   });
 }
 
