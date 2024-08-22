@@ -61,3 +61,12 @@ if(buttonsRefuse.length > 0){
   });
 }
 //End !chap nhan ket ban
+
+//Cap nhat danh sach acceptFriends realtime cho ong B
+socket.on("SERVER_RETURN_LENGTH_ACCEPT_FRIENDS", (data) => {
+  const badgeAcceptFriend = document.querySelector(`[badge-user-id="${data.idB}"]`);
+  if(badgeAcceptFriend){
+    badgeAcceptFriend.innerHTML = data.length;
+  }
+});
+//End Cap nhat danh sach acceptFriends realtime cho ong B

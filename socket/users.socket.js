@@ -37,8 +37,20 @@ module.exports = async (req, res) => {
             acceptFriends: idA
           }
         });
+
+        //Cap nhat danh sach acceptFriends realtime cho ong B
+
+        const userIdB = await userModel.findOne({
+          _id: idB
+        });
+
+        socket.broadcast.emit("SERVER_RETURN_LENGTH_ACCEPT_FRIENDS", {
+          idB: userIdB.id,
+          length: userIdB.acceptFriends.length
+        })
+
       }
-    //End Cap nhat danh sach acceptFriends cua ongB 
+    //End Cap nhat danh sach acceptFriends cua ong  B 
     
     // End addFriend
 
