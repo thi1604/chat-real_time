@@ -10,9 +10,9 @@ block main
       .col-12
         +box-head("Danh sách người dùng")
 
-    .row
+    .row(data-not-friend=`${user.id}`)
       each user in listNotFriend
-        .col-6
+        .col-6(box-user=`${user.id}`)
           div(class="box-user")
             div(class="inner-avatar")
               img(

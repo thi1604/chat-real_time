@@ -73,6 +73,12 @@ module.exports = async (req, res) => {
         length: userIdA.requestFriends.length
       });
     
+
+    //Xoa ong A khoi danh sach user cua ong B
+    socket.broadcast.emit("SERVER_RETURN_ID_USER_ACCEPT_FR", {
+      idA: idA,
+      idB: idB
+    });
     // End addFriend
 
   })
@@ -118,7 +124,7 @@ module.exports = async (req, res) => {
       const userIdA = await userModel.findOne({
         _id: idA
       });
-      
+
       socket.emit("SERVER_RETURN_LENGTH_REQUEST_FRIENDS", {
         idA: idA,
         length: userIdA.requestFriends.length

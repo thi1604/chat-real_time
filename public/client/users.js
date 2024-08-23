@@ -103,21 +103,35 @@ socket.on("SERVER_RETURN_INFO_A_IN_ACCEPT_FRIENDS", (data)=> {
 
 socket.on("SERVER_RETURN_CANCEL_REQUEST_FRIEND", (data) => {
   const listBoxUser = document.querySelector(`[data-user-accept="${data.idB}"]`);
-  const boxUserA = listBoxUser.querySelector(`[box-user-accept="${data.idA}"]`);
-  if(boxUserA){
-    const colOfBoxA = boxUserA.closest(".col-6");
-    if(colOfBoxA){
-      colOfBoxA.remove();
+  if(listBoxUser){
+    const boxUserA = listBoxUser.querySelector(`[box-user-accept="${data.idA}"]`);
+    if(boxUserA){
+      const colOfBoxA = boxUserA.closest(".col-6");
+      if(colOfBoxA){
+        colOfBoxA.remove();
+      }
     }
   }
 });
 
 
 //Hien thi so luong requestFriend cho ong A
-
 socket.on("SERVER_RETURN_LENGTH_REQUEST_FRIENDS", (data) => {
   const badgeRequestFriend = document.querySelector(`[badge-user-id-request="${data.idA}"]`);
   if(badgeRequestFriend){
     badgeRequestFriend.innerHTML = data.length;
+  }
+});
+
+//Xoa boxUserA trong notFriends cua B khi A gui request
+
+socket.on("SERVER_RETURN_ID_USER_ACCEPT_FR", (data)=> {
+  const dataNotFriends = document.querySelector(`[data-not-friend="${data.idB}"]`);
+  // console.log(listNotFriends);
+  if(dataNotFriends){
+    const boxUserA = dataNotFriends.querySelector(`[box-user="${data.idA}"]`);
+    if(boxUserA){
+      dataNotFriends.removeChild(boxUserA);
+    }
   }
 });

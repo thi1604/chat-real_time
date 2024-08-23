@@ -1,31 +1,31 @@
 row
   .col-12
     a(
-      class="btn btn-primary m-1"
+      class="btn btn-outline-primary m-1"
       href="/users/not-friend"
     ) Danh sách người dùng
     a(
-      class="btn btn-primary m-1"
+      class="btn btn-outline-primary m-1"
       href="/users/friends"
     ) Danh sách bạn bè
       span(
-        class="badge badge-light ml-1"
+        class="badge badge-danger ml-1"
         badge-user-id=`${user.id}`
       ) #{user.friendsList.length}
     a(
-      class="btn btn-primary m-1"
+      class="btn btn-outline-primary m-1"
       href="/users/request"
     ) Lời mời đã gửi
       span(
-        class="badge badge-light ml-1"
+        class="badge badge-danger ml-1"
         badge-user-id-request=`${user.id}`
       ) #{user.requestFriends.length}
     a(
-      class="btn btn-primary m-1"
+      class="btn btn-outline-primary m-1"
       href="/users/accept"
     ) Lời mời đã nhận
       span(
-        class="badge badge-light ml-1"
+        class="badge badge-danger ml-1"
         badge-user-id-accept=`${user.id}`
       ) #{user.acceptFriends.length}
     
