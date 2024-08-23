@@ -53,7 +53,7 @@ module.exports = async (req, res) => {
         //Hien thi ong A trong list accept cua ong B
         const userIdA = await userModel.findOne({
           _id: idA
-        }).select("fullName avatar id");
+        }).select("fullName avatar id requestFriends");
 
         socket.broadcast.emit("SERVER_RETURN_INFO_A_IN_ACCEPT_FRIENDS", {
           infoA: userIdA,
@@ -62,6 +62,16 @@ module.exports = async (req, res) => {
 
       }
     //End Cap nhat danh sach acceptFriends cua ong  B 
+
+    //Hien thi so luong requestFriend cho ong A
+      const userIdA = await userModel.findOne({
+        _id: idA
+      });
+
+      socket.emit("SERVER_RETURN_LENGTH_REQUEST_FRIENDS", {
+        idA: idA,
+        length: userIdA.requestFriends.length
+      });
     
     // End addFriend
 
@@ -103,6 +113,15 @@ module.exports = async (req, res) => {
       socket.broadcast.emit("SERVER_RETURN_CANCEL_REQUEST_FRIEND", {
         idB: userIdB.id,
         idA: idA
+      });
+
+      const userIdA = await userModel.findOne({
+        _id: idA
+      });
+      
+      socket.emit("SERVER_RETURN_LENGTH_REQUEST_FRIENDS", {
+        idA: idA,
+        length: userIdA.requestFriends.length
       });
 
     });

@@ -64,7 +64,7 @@ if(buttonsRefuse.length > 0){
 
 //Cap nhat danh sach acceptFriends realtime cho ong B
 socket.on("SERVER_RETURN_LENGTH_ACCEPT_FRIENDS", (data) => {
-  const badgeAcceptFriend = document.querySelector(`[badge-user-id="${data.idB}"]`);
+  const badgeAcceptFriend = document.querySelector(`[badge-user-id-accept="${data.idB}"]`);
   if(badgeAcceptFriend){
     badgeAcceptFriend.innerHTML = data.length;
   }
@@ -109,5 +109,15 @@ socket.on("SERVER_RETURN_CANCEL_REQUEST_FRIEND", (data) => {
     if(colOfBoxA){
       colOfBoxA.remove();
     }
+  }
+});
+
+
+//Hien thi so luong requestFriend cho ong A
+
+socket.on("SERVER_RETURN_LENGTH_REQUEST_FRIENDS", (data) => {
+  const badgeRequestFriend = document.querySelector(`[badge-user-id-request="${data.idA}"]`);
+  if(badgeRequestFriend){
+    badgeRequestFriend.innerHTML = data.length;
   }
 });
