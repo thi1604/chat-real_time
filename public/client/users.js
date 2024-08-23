@@ -70,3 +70,44 @@ socket.on("SERVER_RETURN_LENGTH_ACCEPT_FRIENDS", (data) => {
   }
 });
 //End Cap nhat danh sach acceptFriends realtime cho ong B
+
+socket.on("SERVER_RETURN_INFO_A_IN_ACCEPT_FRIENDS", (data)=> {
+  const listAcceptOfB = document.querySelector(`[data-user-accept="${data.idB}"]`);
+  if(listAcceptOfB){
+    const boxUserA = document.createElement("div");
+    boxUserA.classList.add("col-6");
+    boxUserA.innerHTML = `
+      <div class="box-user" box-user-accept="${data.infoA._id}">
+        <div class="inner-avatar">
+          <img src="https://robohash.org/hicveldicta.png" alt="${data.infoA.fullName}">
+        </div>
+        <div class="inner-info">
+          <div class="inner-name">${data.infoA.fullName}
+          </div>
+          <div class="inner-buttons">
+            <button class="btn btn-sm btn-primary mr-1" btn-accept-friend="${data.infoA._id}">Chấp nhận
+            </button>
+            <button class="btn btn-sm btn-secondary mr-1" btn-refuse-friend="${data.infoA._id}">Xóa
+            </button>
+            <button class="btn btn-sm btn-secondary mr-1" btn-deleted-friend="" disabled="">Đã xóa
+            </button>
+            <button class="btn btn-sm btn-primary mr-1" btn-accepted-friend="" disabled="">Đã chấp nhận
+            </button>
+          </div>
+        </div>
+      </div>`
+    listAcceptOfB.appendChild(boxUserA);
+  };
+})
+
+
+socket.on("SERVER_RETURN_CANCEL_REQUEST_FRIEND", (data) => {
+  const listBoxUser = document.querySelector(`[data-user-accept="${data.idB}"]`);
+  const boxUserA = listBoxUser.querySelector(`[box-user-accept="${data.idA}"]`);
+  if(boxUserA){
+    const colOfBoxA = boxUserA.closest(".col-6");
+    if(colOfBoxA){
+      colOfBoxA.remove();
+    }
+  }
+});
