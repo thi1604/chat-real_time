@@ -81,3 +81,21 @@ module.exports.accept = async (req, res) => {
 
 }
 //End Danh sach chap nhan ket ban
+
+//Danh sach ban be
+module.exports.friends = async (req, res) => {
+
+  const Friends = res.locals.user.friendsList;
+  const friendsListId = Friends.map(item => item.userId);
+
+  const listIdFriends = await userModel.find({
+    _id: {$in : friendsListId}
+  }).select("fullName id avatar");
+  
+  res.render("client/pages/users/friends.pug", {
+    pageTitle: "Danh sách bạn bè",
+    users: listIdFriends
+  });
+
+};
+//End Danh sach ban be
