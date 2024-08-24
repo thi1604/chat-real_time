@@ -45,6 +45,30 @@ if(buttonsAccept.length > 0){
     });
   });
 }
+
+  //Cap nhat realtime
+socket.on("SERVER_RETURN_LENGTH_LIST_AND_ACCEPT_A", (data)=> {
+  const badgeListFriends = document.querySelector(`[badge-user-id-friends="${data.idA}"]`);
+  const badgeAcceptFriend = document.querySelector(`[badge-user-id-accept="${data.idA}"]`);
+  if(badgeListFriends){
+    badgeListFriends.innerHTML = data.lengthFr;
+  }
+  if(badgeAcceptFriend){
+    badgeAcceptFriend.innerHTML = data.lengthAC;
+  }
+});
+
+socket.on("SERVER_RETURN_LENGTH_LIST_AND_REQUEST_B", (data)=> {
+  const badgeListFriends = document.querySelector(`[badge-user-id-friends="${data.idB}"]`);
+  const badgeAcceptFriend = document.querySelector(`[badge-user-id-request="${data.idB}"]`);
+  if(badgeListFriends){
+    badgeListFriends.innerHTML = data.lengthFr;
+  }
+  if(badgeAcceptFriend){
+    badgeAcceptFriend.innerHTML = data.lengthRQ;
+  }
+});
+
 //Chap nhan ket ban
 
 //!chap nhan ket ban

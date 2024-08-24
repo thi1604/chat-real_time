@@ -137,7 +137,7 @@ module.exports = async (req, res) => {
     socket.on("CLIENT_SEND_ACCEPT_FRIEND", async (data)=>{
       const idA = res.locals.user.id;
       const idB = data.idB;
-      const IdBInAcceptidA = await userModel.findOne({
+      const IdBInfriendlistIdA = await userModel.findOne({
         $and: [
           {_id: idA},
           {
@@ -146,7 +146,7 @@ module.exports = async (req, res) => {
         ]
       });
       //Kiem tra xem A va B da la ban chua, neu chua thi moi cap nhat
-      if(!IdBInAcceptidA){
+      if(!IdBInfriendlistIdA){
         //Cap nhat danh sach acceptFriend, FriendList cua A
         await userModel.updateOne({
           _id: idA
@@ -167,6 +167,16 @@ module.exports = async (req, res) => {
             }
           }
         });
+        //Realtime
+        const userA = await userModel.findOne({
+          _id: idA
+        });
+
+        socket.emit("SERVER_RETURN_LENGTH_LIST_AND_ACCEPT_A", {
+          idA: idA,
+          lengthAC: userA.acceptFriends.length,
+          lengthFr: userA.friendsList.length
+        });
 
         //Cap nhat danh sach request cua B, FriendList cua B
         await userModel.updateOne({
@@ -186,6 +196,16 @@ module.exports = async (req, res) => {
               roomChatId: ""
             }
           }
+        });
+
+        const userB = await userModel.findOne({
+          _id: idB
+        });
+
+        socket.broadcast.emit("SERVER_RETURN_LENGTH_LIST_AND_REQUEST_B", {
+          idB: idB,
+          lengthRQ: userB.requestFriends.length,
+          lengthFr: userB.friendsList.length
         });
       }
         //End Cap nhat danh sach request cua B, FriendList cua B
