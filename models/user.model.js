@@ -6,6 +6,7 @@ const userSchema = new mongoose.Schema({
   phone: String,
   password: String,
   tokenUser: String,
+  statusOnline: String,
   acceptFriends: Array,
   requestFriends: Array,
   friendsList: Array,

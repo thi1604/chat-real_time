@@ -494,4 +494,14 @@
 
 /* End box-user */
 
+/* Hien thi dang hoat dong va khong hoat dong */
+.box-user .inner-status {
+  font-size: 12px;
+  color: #00d800;
+  opacity: 0;
+}
+
+.box-user .inner-status[status="online"] {
+  opacity: 1;
+}
 

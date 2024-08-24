@@ -76,11 +76,28 @@ module.exports.loginPost = async (req, res) => {
   // req.flash("success", "Đăng nhập thành công!");
   const time = 24 * 3 * 60 * 60 * 1000;
   res.cookie("tokenUser", user.tokenUser, { expires: new Date(Date.now() + time)});
+
+  await userModel.updateOne({
+    email: emailCurrent
+  }, {
+    statusOnline: "online"
+  });
+
   res.redirect("/chat");
 }
 
 
 module.exports.logout = async (req, res) => {
+  try{
+    await userModel.updateOne({
+      email: res.locals.user.email
+    }, {
+      statusOnline: "offline"
+    });
+  }catch(error){
+    res.redirect("/user/login");
+  }
+
   res.clearCookie("tokenUser");
   res.redirect("/user/login");
 }

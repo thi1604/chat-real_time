@@ -90,7 +90,7 @@ module.exports.friends = async (req, res) => {
 
   const listIdFriends = await userModel.find({
     _id: {$in : friendsListId}
-  }).select("fullName id avatar");
+  }).select("fullName id avatar statusOnline");
   
   res.render("client/pages/users/friends.pug", {
     pageTitle: "Danh sách bạn bè",
