@@ -159,3 +159,15 @@ socket.on("SERVER_RETURN_ID_USER_ACCEPT_FR", (data)=> {
     }
   }
 });
+
+//Hien thi realtime khi online
+
+socket.on("SERVER_RETURN_USER_ONLINE", (data)=> {
+  const userOnline = document.querySelector(`[box-user="${data.id}"]`);
+  if(userOnline){
+    const badgeOnline = userOnline.querySelector(`[status]`);
+    if(badgeOnline){
+      badgeOnline.setAttribute("status", data.statusOnline);
+    }
+  }
+});

@@ -83,6 +83,13 @@ module.exports.loginPost = async (req, res) => {
     statusOnline: "online"
   });
 
+  _io.once("connection", (socket)=>{
+    socket.broadcast.emit("SERVER_RETURN_USER_ONLINE", {
+      id: user.id,
+      statusOnline: "online"
+    });
+  });
+
   res.redirect("/chat");
 }
 
@@ -97,6 +104,13 @@ module.exports.logout = async (req, res) => {
   }catch(error){
     res.redirect("/user/login");
   }
+
+  _io.once("connection", (socket)=>{
+    socket.broadcast.emit("SERVER_RETURN_USER_ONLINE", {
+      id: res.locals.user.id,
+      statusOnline: "offline"
+    });
+  });
 
   res.clearCookie("tokenUser");
   res.redirect("/user/login");

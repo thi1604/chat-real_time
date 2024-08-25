@@ -3,7 +3,6 @@ const userModel = require("../models/user.model");
 module.exports = async (req, res) => {
 
   _io.once('connection',  (socket) => {
-
     socket.on("CLIENT_SEND_ADD_FRIEND", async (data) => { //De y dau ngoac, phai ngoac het ham!!!
       const idA = res.locals.user.id;
       const idB = data.idUserB;

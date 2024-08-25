@@ -87,7 +87,7 @@ module.exports.friends = async (req, res) => {
 
   const Friends = res.locals.user.friendsList;
   const friendsListId = Friends.map(item => item.userId);
-
+  
   const listIdFriends = await userModel.find({
     _id: {$in : friendsListId}
   }).select("fullName id avatar statusOnline");
