@@ -187,7 +187,7 @@ module.exports = async (req, res) => {
         const userA = await userModel.findOne({
           _id: idA
         });
-
+        
         socket.emit("SERVER_RETURN_LENGTH_LIST_AND_ACCEPT_A", {
           idA: idA,
           lengthAC: userA.acceptFriends.length,

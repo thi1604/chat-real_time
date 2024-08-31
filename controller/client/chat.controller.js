@@ -7,7 +7,9 @@ module.exports.chat = async (req, res) => {
   await chatSoket(req, res);
   //End socket.io
   
-  const chats = await chatModel.find({});
+  const chats = await chatModel.find({
+    roomChatId: req.params.id
+  });
   
   for (const item of chats) {
       const user = await userModel.findOne({

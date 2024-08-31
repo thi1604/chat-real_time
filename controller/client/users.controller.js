@@ -91,6 +91,14 @@ module.exports.friends = async (req, res) => {
   const listIdFriends = await userModel.find({
     _id: {$in : friendsListId}
   }).select("fullName id avatar statusOnline");
+
+  //Ga'n them roomChatId cho moi friend cua user
+  listIdFriends.forEach(item => {
+    const user = Friends.find(user => user.userId == item.id);
+    if(user){
+      item.roomChatId = user.roomChatId;
+    }
+  });
   
   res.render("client/pages/users/friends.pug", {
     pageTitle: "Danh sách bạn bè",
