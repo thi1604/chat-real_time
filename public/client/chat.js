@@ -117,7 +117,7 @@ if(input){
     
     typingTimeOut = setTimeout( ()=> {
       socket.emit("CLIENT_SEND_TYPING", "hidden");
-    }, 3000);
+    }, 6000);
   });
   // setTimeout( ()=> {
   //   socket.emit("CLIENT_SEND_TYPING", "hidden");

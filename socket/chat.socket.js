@@ -2,7 +2,6 @@ const userModel = require("../models/user.model");
 const chatModel = require("../models/chat.model");
 const streamUpLoad = require("../helper/streamUpload");
 
-
 module.exports = async (req, res) => {
 
   const idUser = res.locals.user.id;
@@ -36,6 +35,12 @@ module.exports = async (req, res) => {
         fullName: user.fullName,
         content: data.content,
         listImages: data.images
+      });
+      //Xoa typing khi A vua gui tin nhan
+      socket.broadcast.to(roomChatId).emit("SERVER_RETURN_TYPING", {
+        userId: idUser,
+        fullName: user.fullName,
+        typing: "hidden"
       });
     }) ;
     
