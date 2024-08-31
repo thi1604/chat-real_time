@@ -1,4 +1,5 @@
 const userModel = require("../models/user.model");
+const roomChatModel = require("../models/room-chat.model");
 
 module.exports = async (req, res) => {
 
@@ -155,6 +156,22 @@ module.exports = async (req, res) => {
           }
         });
         //End Cap nhat danh sach acceptFriend, FriendList cua A
+        //Tao phong chat cho A va B khi acceptFriend
+        const roomChat = new roomChatModel({
+          type: "friend",
+          users: [
+            {
+              idUser: idA,
+              role: "superAdmin"
+            },
+            {
+              idUser: idB,
+              role: "superAdmin"
+            }
+          ] 
+        });
+
+        await roomChat.save();
 
         await userModel.updateOne({
           _id: idA
@@ -162,7 +179,7 @@ module.exports = async (req, res) => {
           $push: {
             friendsList: {
               userId: idB,
-              roomChatId: ""
+              roomChatId: `${roomChat.id}`
             }
           }
         });
@@ -192,7 +209,7 @@ module.exports = async (req, res) => {
           $push: {
             friendsList: {
               userId: idA,
-              roomChatId: ""
+              roomChatId: `${roomChat.id}`
             }
           }
         });
