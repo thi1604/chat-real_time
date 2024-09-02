@@ -117,7 +117,7 @@ if(input){
     
     typingTimeOut = setTimeout( ()=> {
       socket.emit("CLIENT_SEND_TYPING", "hidden");
-    }, 6000);
+    }, 3000);
   });
   // setTimeout( ()=> {
   //   socket.emit("CLIENT_SEND_TYPING", "hidden");
@@ -149,6 +149,10 @@ socket.on("SERVER_RETURN_TYPING", (data)=> {
   }
 });
 // End SERVER_RETURN_TYPING
+
+
+//Setting Chat
+
 
 
 

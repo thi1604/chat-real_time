@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const roomChatSchema = new mongoose.Schema({
   title: String,
   type: String,
+  aliasRoom: String,
   avatar: String,
   users: [
     {

@@ -1,5 +1,5 @@
 extends ../../layouts/default.pug
-
+include ../../mixins/box-head.pug
 
 block main
   .container.my-3
@@ -7,10 +7,33 @@ block main
     include ../../partials/list-btn-user.pug
     .row
       .col-12
-        //- +box-head("Chat")
-
+        +box-head("Chat")
     .row
       .col-12
+        .inner-header-chat
+          if (titleRoomChat.fullName)
+            .titleImg
+              img(src=titleRoomChat.avatar, alt="avatar")
+            .titleRoom #{titleRoomChat.fullName}
+          else if (roomChat.title) 
+            .titleRoom #{roomChat.title}
+          else
+            .titleRoom #{titleRoomChat } #{user.fullName}
+          .inner-setting-chat
+            //- |<i class="fa-solid fa-gear"></i>
+            div(class="dropdown")
+              button(class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false")
+                | <i class="fa-solid fa-gear"></i>
+              div(class="dropdown-menu")
+                if (roomChat.type == "friend" || roleUser == "superAdmin")
+                  a(class="dropdown-item" href=`/chat/${roomChat.id}/change-title`) Đổi tên nhóm
+                  a(class="dropdown-item" href="#") Đặt biệt danh
+                  a(class="dropdown-item" href="#") Đổi avatar
+                  a(class="dropdown-item" href="#") Xem thành viên
+                  a(class="dropdown-item" href="#") Nâng cấp thành viên
+                  a(class="dropdown-item" href="#") Xóa đoạn chat
+                else
+                  a(class="dropdown-item" href="#") Rời khỏi đoạn chat
         .chat(my-id=`${user.id}`)
           .inner-body
             for item in chats

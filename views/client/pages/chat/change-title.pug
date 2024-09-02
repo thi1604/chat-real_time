@@ -1,0 +1,27 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+
+block main
+  .container.my-3
+    include ../../partials/list-btn-user.pug
+    .row
+      .col-12
+        +box-head(pageTitle)
+    .row
+      .col-12
+        form(
+          action=`/chat/${idRoom}/change-title?_method=PATCH`
+          method="POST"
+        ) 
+          //- enctype="multipart/form-data"
+          div(class="form-group")
+            label(for="newTitle") Tên nhóm mới
+            input(
+              type="text"
+              class="form-control"
+              id="newTitle"
+              name="newTitle"
+              required
+            )
+          button.btn.btn-primary.mt-2(type='submit') Đổi
+    
