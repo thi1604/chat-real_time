@@ -1,0 +1,27 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+
+block main
+  .container.my-3
+    include ../../partials/list-btn-user.pug
+    .row
+      .col-12
+        +box-head(pageTitle)
+    .row
+      .col-12
+        ul.list-group
+        for user in userRoomChat
+          li.list-group-item
+            form.form-inline(
+              action=`/chat/${idRoom}/change-name-user/${user.idUser}?_method=PATCH`
+              method="POST"
+            )
+              .form-group.mb-2
+                label.sr-only(for='staticEmail2')
+                input#staticEmail2.form-control-plaintext(type='text' readonly='' value=user.fullName)
+              .form-group.mx-sm-3.mb-2
+                label.sr-only(for='inputPassword2')
+                input#inputPassword2.form-control(type='text' placeholder='Biệt danh mới' name="newAlias")
+              button.btn.btn-primary.mb-2(type="submit") Đổi
+
+            //- a(href=`/chat/${idRoom}/change-name-user/${user.id}`) #{user.fullName}

@@ -28,18 +28,23 @@ module.exports.chat = async (req, res) => {
     titleRoomChat = friend;
   }
   //End Lay ten doi phuong khi typeRoom la "friend"
-
+  
   //Lay ra role cua user current
   const roleUser = listUser.find(item => item.idUser == res.locals.user.id).role;
-  
-  for (const item of chats) {
-      const user = await userModel.findOne({
-        _id: item.userId
-      }).select("fullName");
 
-      
-      item.fullName = user.fullName;
+  for (const item of chats) {
+    const user = await userModel.findOne({
+      _id: item.userId
+    }).select("fullName");
+    item.fullName = user.fullName;  
+    //Neu co alias, thay the fullName thanh alias luon
+    const aliasUser = listUser.find(user => user.idUser == item.userId);
+    if(aliasUser.alias) {
+      item.fullName = aliasUser.alias
+    }
   }
+
+  
 
   res.render("client/pages/chat/index.pug", {
     chats: chats,
@@ -71,6 +76,45 @@ module.exports.changeTitlePatch = async (req, res) => {
   }, {
     "title": newTitle
   });
+  res.redirect(`/chat/${idRoom}`);
+}
+
+module.exports.changeName = async (req, res) => {
+
+  const userRoomChat = await roomChatModel.findOne({
+    _id: req.params.id
+  }).select("users id");
+
+
+  for (const user of userRoomChat.users ) {
+    const inforUser = await userModel.findOne({
+      _id: user.idUser
+    }).select("fullName avatar");
+
+    user.fullName = inforUser.fullName;
+    // user.avatar = inforUser.avatar;
+  }
+
+  res.render("client/pages/chat/change-name-user.pug", {
+    pageTitle: "Đổi tên thành viên",
+    userRoomChat: userRoomChat.users,
+    idRoom: userRoomChat.id
+  });
+
+  // res.send("ok");
+}
+
+module.exports.changeNamePatch = async (req, res) => {
+  
+  const idRoom = req.params.id;
+
+  await roomChatModel.updateOne({
+    _id: idRoom,
+    "users.idUser": req.params.idUser
+  }, {
+    $set: {"users.$.alias" : req.body.newAlias}
+  });
+
   res.redirect(`/chat/${idRoom}`);
 }
 

@@ -23,5 +23,10 @@ block main
               name="newTitle"
               required
             )
-          button.btn.btn-primary.mt-2(type='submit') Đổi
+          div(class="button-change")
+            button.btn.btn-primary.mt-2(type='submit') Đổi
+            a(
+              class="btn btn-danger mt-2 ml-5"
+              href=`/chat/${idRoom}`
+            ) Hủy
     
