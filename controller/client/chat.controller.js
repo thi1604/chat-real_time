@@ -37,6 +37,7 @@ module.exports.chat = async (req, res) => {
         _id: item.userId
       }).select("fullName");
 
+      
       item.fullName = user.fullName;
   }
 
