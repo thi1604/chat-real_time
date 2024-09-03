@@ -30,5 +30,9 @@ route.patch("/:id/change-avatar",
 
 route.get("/:id/member", isAccessMiddlewares, controller.member);
 
+route.get("/:id/update-role-member", isAccessMiddlewares, controller.updateRoleMember);
+
+route.patch("/:id/update-role-member", isAccessMiddlewares, controller.updateRoleMemberPatch);
+
 
 module.exports = route;

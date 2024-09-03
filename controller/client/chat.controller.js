@@ -47,6 +47,7 @@ module.exports.chat = async (req, res) => {
 
   
   res.render("client/pages/chat/index.pug", {
+    pageTitle: `${roomChat.title}`,
     chats: chats,
     titleRoomChat: titleRoomChat,
     roleUser: roleUser,
@@ -172,4 +173,45 @@ module.exports.member = async (req, res) => {
   // res.send("ok");
 };
 
+module.exports.updateRoleMember = async (req, res) => {
+  const roomChat = await roomChatModel.findOne({
+    _id: req.params.id
+  });
+  const userRoomChat = await roomChatModel.findOne({
+    _id: req.params.id
+  }).select("users id");
 
+
+  for (const user of userRoomChat.users ) {
+    const inforUser = await userModel.findOne({
+      _id: user.idUser
+    }).select("fullName avatar");
+
+    user.fullName = inforUser.fullName;
+    // user.avatar = inforUser.avatar;
+  }
+
+
+  res.render("client/pages/chat/update-role.pug", {
+    pageTitle: "Nâng cấp thành viên",
+    userRoomChat: userRoomChat.users,
+    idRoom: userRoomChat.id
+  });
+};
+
+
+module.exports.updateRoleMemberPatch = async (req, res) => {
+  const roleChange = req.body.role;
+  const idUser = req.body.idUser;
+
+  await roomChatModel.updateOne({
+    _id: req.params.id,
+    "users.idUser": idUser
+  }, {
+    $set: {"users.$.role" : roleChange}
+  });
+  
+  res.json({
+    code: 200
+  });
+}

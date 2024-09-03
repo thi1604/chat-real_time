@@ -488,3 +488,19 @@
   object-fit: contain;
 }
 
+
+/* Change role memeber in roomChat type : group */
+
+.inner-change-role {
+  display: flex;
+  align-content: center;
+  
+}
+
+.inner-change-role button {
+  border: 0px;
+}
+
+.inner-change-role .custom-select {
+  margin-right: 12px;
+}

@@ -168,7 +168,44 @@ if(divImage){
 // End preview anh trong form ben admin
 
 
-//Setting Chat
+//Change role user in Group
+const buttonChange = document.querySelectorAll("[change-role-user]");
+const listGroup = document.querySelector(".list-group");
+if(buttonChange.length > 0){
+  buttonChange.forEach(item => {
+    item.addEventListener("click", ()=> {
+      const idUserChange = item.getAttribute("idUser");
+      if(listGroup){
+        const valueSelect = listGroup.querySelector(`[iduser="${idUserChange}"]`);
+        if(valueSelect){
+          const dataChange = {
+            role: valueSelect.value,
+            idUser: item.getAttribute("idUser")
+          }
+          const link = item.getAttribute("link");
+          // console.log(dataChange);
+          fetch(link, {
+            method : "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(dataChange)
+          })
+          // Tra ve cho FE data dang json, roi dich json thanh js
+          .then(res => res.json())
+          //Dich xong tra gia tri cho data, neu thanh cong reload lai trang
+          .then(data => {
+            if(data.code == 200){
+              // window.location.reload();
+              console.log("ok");
+            }
+          })
+        }
+      }
+    });
+  });
+}
+//End Change role user in Group
 
 
 

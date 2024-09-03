@@ -1,0 +1,35 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+
+block main
+  .container.my-3
+    include ../../partials/list-btn-user.pug
+    .row
+      .col-12
+        +box-head(pageTitle)
+    .row
+      .col-12
+        div.list-group
+          for User in userRoomChat
+            if  (User.idUser != user.id)
+              div(class="inner-change-role")
+                .input-group.mb-3
+                  .input-group-prepend
+                    label.input-group-text(for='inputGroupSelect01') #{User.fullName}
+                  select(
+                    id="inputGroupSelect01"
+                    class="custom-select"
+                    idUser=`${User.idUser}`
+                  )
+                    option(value='Admin' selected=(User.role == "Admin" ? true : false)) Phó phòng 
+                    option(value='Member' selected=(User.role == "Member" ? true : false)) Thành viên
+                button(
+                  class="btn btn-primary mb-2"
+                  change-role-user
+                  idUser=`${User.idUser}`
+                  link=`/chat/${idRoom}/update-role-member`
+                ) Đổi
+      a(
+        class="btn btn-danger mt-2 ml-5"
+        href=`/chat/${idRoom}`
+      ) Back
