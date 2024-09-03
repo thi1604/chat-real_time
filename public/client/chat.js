@@ -151,6 +151,23 @@ socket.on("SERVER_RETURN_TYPING", (data)=> {
 // End SERVER_RETURN_TYPING
 
 
+// preview anh trong form ben admin
+const divImage = document.querySelector("[upload-image]");
+if(divImage){
+  const imageInput = divImage.querySelector("[upload-image-input]"); 
+  const imagePreview = divImage.querySelector("[upload-image-preview]");
+  if(imageInput){
+    imageInput.addEventListener("change", ()=>{
+      const file = imageInput.files[0];
+      if(file){
+        imagePreview.src = URL.createObjectURL(file);
+      }
+    });
+  } 
+}
+// End preview anh trong form ben admin
+
+
 //Setting Chat
 
 

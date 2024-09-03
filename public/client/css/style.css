@@ -129,8 +129,8 @@
   /* justify-content: space-between; */
   align-items: center;
   gap: 5px;
-  background-color: #fff;
-  color: #212529;
+  background-color: #5A6268;
+  color: #FFFFFF;
   margin-top : 30px;
   font-size: 24px;
   border-radius: 12px 12px 0px 0px;
@@ -477,4 +477,14 @@
   text-align: end;
 }
 /* End Button create RoomChat */
+
+/* Change avtar roomChat type : group */
+.image-preview {
+  width: 100px;
+  height: auto;
+  margin-top: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  object-fit: contain;
+}
 

@@ -15,9 +15,13 @@ block main
             .titleImg
               img(src=titleRoomChat.avatar, alt="avatar")
             .titleRoom #{titleRoomChat.fullName}
-          else if (roomChat.title) 
+          else if (roomChat.title)
+            .titleImg
+              img(src=roomChat.avatar, alt="avatar") 
             .titleRoom #{roomChat.title}
           else
+            .titleImg
+              img(src=roomChat.avatar, alt="avatar")
             .titleRoom #{titleRoomChat } #{user.fullName}
           .inner-setting-chat
             //- |<i class="fa-solid fa-gear"></i>
@@ -27,8 +31,8 @@ block main
               div(class="dropdown-menu")
                 if (roomChat.type == "friend" || roleUser == "superAdmin")
                   a(class="dropdown-item" href=`/chat/${roomChat.id}/change-title`) Đổi tên nhóm
+                  a(class="dropdown-item" href=`/chat/${roomChat.id}/change-avatar`) Đổi ảnh nhóm
                   a(class="dropdown-item" href=`/chat/${roomChat.id}/change-name-user`) Đặt biệt danh
-                  a(class="dropdown-item" href="#") Đổi avatar
                   a(class="dropdown-item" href="#") Xem thành viên
                   a(class="dropdown-item" href="#") Nâng cấp thành viên
                   a(class="dropdown-item" href="#") Giải tán nhóm

@@ -1,0 +1,38 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+
+block main
+  .container.my-3
+    include ../../partials/list-btn-user.pug
+    .row
+      .col-12
+        +box-head(pageTitle)
+    form(
+      action=`/chat/${roomChat.id}/change-avatar?_method=PATCH`
+      method="POST"
+      enctype="multipart/form-data"
+    )
+      div(
+        class="form-group"
+        upload-image
+      )
+        label(for="avatar") Thay đổi avatar nhóm #{roomChat.title}
+        input(
+          type="file"
+          class="form-control-file"
+          id="avatar"
+          name="avatar"
+          accept="image/*"
+          upload-image-input
+        )
+        img(
+          src=roomChat.avatar
+          class="image-preview"
+          upload-image-preview
+        )
+      div(class="button-change")
+            button.btn.btn-primary.mt-2(type='submit') Đổi
+            a(
+              class="btn btn-danger mt-2 ml-5"
+              href=`/chat/${roomChat.id}`
+            ) Hủy

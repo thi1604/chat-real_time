@@ -38,6 +38,10 @@ module.exports.creatPost = async (req, res) => {
   const dataRoom = {
     title: "",
     type: "group",
+    avatar: {
+      type: String,
+      default: "https://res.cloudinary.com/dddqj4xho/image/upload/v1725285911/avatar-default-roomChat-chatRealTime_ewbtk8.jpg"
+    },
     users: []
   };
   const dataForm = req.body;

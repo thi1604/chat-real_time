@@ -2,6 +2,7 @@ const chatModel = require("../../models/chat.model");
 const chatSoket = require("../../socket/chat.socket");
 const userModel = require("../../models/user.model");
 const roomChatModel = require("../../models/room-chat.model");
+// const streamUpLoad = require("../../helper/streamUpload");
 
 module.exports.chat = async (req, res) => {
   // socket.io
@@ -45,7 +46,6 @@ module.exports.chat = async (req, res) => {
   }
 
   
-
   res.render("client/pages/chat/index.pug", {
     chats: chats,
     titleRoomChat: titleRoomChat,
@@ -116,5 +116,27 @@ module.exports.changeNamePatch = async (req, res) => {
   });
 
   res.redirect(`/chat/${idRoom}`);
+}
+
+module.exports.changeAvatar = async (req, res) => {
+  // res.send("ok");
+  const roomChat = await roomChatModel.findOne({
+    _id: req.params.id
+  });
+  res.render("client/pages/chat/change-avatar.pug", {
+    pageTitle: "Đổi ảnh nhóm",
+    roomChat: roomChat
+  })
+}
+
+module.exports.changeAvatarPatch = async (req, res) => {
+  // const result = await streamUpLoad(req.file.buffer);
+  const idRoom = req.params.id;
+  await roomChatModel.updateOne({
+    _id: req.params.id
+  }, {
+    "avatar" : req.urlCloud // Da them link image tu cloudinary ben middlewares
+  });
+  res.redirect(`/chat/${idRoom}`)
 }
 
