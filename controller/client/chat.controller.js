@@ -140,3 +140,36 @@ module.exports.changeAvatarPatch = async (req, res) => {
   res.redirect(`/chat/${idRoom}`)
 }
 
+module.exports.member = async (req, res) => {
+  const roomChat = await roomChatModel.findOne({
+    _id: req.params.id
+  });
+  
+  const usersInGroup = roomChat.users;
+
+  for (const item of usersInGroup) {
+
+    const user = await userModel.findOne({
+      _id: item.idUser
+    }).select("fullName statusOnline");
+    
+    item.statusOnline = user.statusOnline;
+
+    item.fullName = user.fullName;  
+    //Neu co alias, thay the fullName thanh alias luon
+    if(item.alias){
+      item.fullName = item.alias;
+    }
+  }
+
+  // console.log(usersInGroup);
+
+  res.render("client/pages/chat/member.pug", {
+    pageTitle: "Thành viên nhóm",
+    usersInGroup: usersInGroup,
+    idRoom : roomChat.id
+  })
+  // res.send("ok");
+};
+
+

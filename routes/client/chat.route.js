@@ -28,4 +28,7 @@ route.patch("/:id/change-avatar",
  controller.changeAvatarPatch
 );
 
+route.get("/:id/member", isAccessMiddlewares, controller.member);
+
+
 module.exports = route;
