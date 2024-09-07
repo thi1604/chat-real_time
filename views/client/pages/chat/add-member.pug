@@ -1,0 +1,41 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+
+
+block main
+  .container.my-3
+
+    include ../../partials/list-btn-user.pug
+    .row
+      .col-12
+        +box-head(pageTitle)
+    .row
+      .col-12 
+        .row
+            each user in listUserNotInGroup
+              .col-6
+                div(class="box-user-add")
+                  div(class="inner-avatar")
+                    img(
+                      src="https://robohash.org/hicveldicta.png"
+                      alt=user.fullName
+                    )
+                  div(class="inner-info")
+                    div(class="inner-name") #{user.fullName}
+                    div(class="inner-buttons")
+                      button(
+                        class="btn btn-sm btn-primary mr-1"
+                        btn-add-friend=user.id
+                        link=`/chat/${idRoom}/add-member`
+                      ) Thêm
+                      button(
+                        class="btn btn-sm btn-primary mr-1"
+                        btn-added-friend
+                        disabled
+                      ) Đã thêm
+                  
+    .row
+      a(
+        class="btn btn-danger mt-2 ml-5"
+        href=`/chat/${idRoom}`
+      ) Back

@@ -504,3 +504,17 @@
 .inner-change-role .custom-select {
   margin-right: 12px;
 }
+
+/* Add member vao groupChat */
+.box-user-add [btn-added-friend] {
+  display: none;
+}
+
+.box-user-add.added [btn-add-friend] {
+  display: none;
+}
+
+.box-user-add.added [btn-added-friend] {
+  display: inline-block;
+}
+

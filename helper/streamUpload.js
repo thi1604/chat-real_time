@@ -20,6 +20,5 @@ module.exports = (buffer)=>{
         }
       );
       streamifier.createReadStream(buffer).pipe(stream);
-      // next();
     });
 }

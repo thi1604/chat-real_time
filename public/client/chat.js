@@ -1,14 +1,10 @@
-import * as Popper from 'https://cdn.jsdelivr.net/npm/@popperjs/core@^2/dist/esm/index.js'
+import * as Popper from 'https://cdn.jsdelivr.net/npm/@popperjs/core@^2/dist/esm/index.js';
 
-//Upload anh
-// import { FileUploadWithPreview } from 'file-upload-with-preview';
-// import 'file-upload-with-preview/dist/style.css';
-// const upload = new FileUploadWithPreview('image-preview');
-//End upload anh
+import {FileUploadWithPreview} from 'https://unpkg.com/file-upload-with-preview/dist/index.js';
 
 const formChat = document.querySelector(".chat .inner-form");
 if(formChat){
-  const upload = new FileUploadWithPreview.FileUploadWithPreview('image-preview', {
+  const upload = new FileUploadWithPreview('image-preview', {
     multiple: true,
     maxFileCount: 6
   });
@@ -27,6 +23,8 @@ if(formChat){
     // socket.emit("CLIENT_SEND_TYPING", "hidden");
   });
 }
+
+// console.log(FileUploadWithPreview);
 
 socket.on("SEVER_SEND_MESSAGES", (data) => {
   
@@ -206,6 +204,40 @@ if(buttonChange.length > 0){
   });
 }
 //End Change role user in Group
+
+
+//Add member vao group
+const listButtonAddFriend = document.querySelectorAll("[btn-add-friend]");
+if(listButtonAddFriend.length > 0){
+  listButtonAddFriend.forEach(item => {
+    item.addEventListener("click", ()=>{
+      const parent = item.closest(".box-user-add");
+      if(parent){
+        parent.classList.add("added");
+      }
+      const link = item.getAttribute("link");
+      const dataUser = {
+        id : item.getAttribute("btn-add-friend")
+      };
+      fetch(link, {
+        method : "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(dataUser) //Chi nhan object
+      })
+      .then(res => res.json())
+      .then(data => {
+        if(data.code == 200){
+          // window.location.reload();
+          console.log("ok");
+        }
+      })
+  });
+})}
+//End Add member vao group
+
+
 
 
 

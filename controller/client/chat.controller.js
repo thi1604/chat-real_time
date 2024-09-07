@@ -45,7 +45,6 @@ module.exports.chat = async (req, res) => {
     }
   }
 
-  
   res.render("client/pages/chat/index.pug", {
     pageTitle: `${roomChat.title}`,
     chats: chats,
@@ -172,6 +171,55 @@ module.exports.member = async (req, res) => {
   })
   // res.send("ok");
 };
+
+module.exports.addMember = async (req, res) => {
+
+  const roomChat = await roomChatModel.findOne({
+    _id: req.params.id
+  });
+
+  const listFriends = roomChat.users;
+  const arrayIdUSer = [];
+  listFriends.forEach(item => {
+    if(item.idUser != res.locals.user.id)
+      arrayIdUSer.push(item.idUser);
+  });
+
+  const listUserNotInGroup = await userModel.find({
+    $and: [
+     { _id: {$ne: res.locals.user.id}},
+    {_id: {
+        $nin : arrayIdUSer}
+    }
+    ] //Dau ngoac vuong cho $and
+  }).select("fullName avatar statusOnline id");
+
+  res.render("client/pages/chat/add-member.pug", {
+    pageTitle: "Thêm thành viên",
+    listUserNotInGroup: listUserNotInGroup,
+    idRoom : roomChat.id
+  })
+
+};
+
+module.exports.addMemberPatch = async (req, res) => {
+  const newUser = {};
+  newUser.idUser = req.body.id;
+  newUser.role = "Member"
+  newUser.alias = "";
+
+  await roomChatModel.updateOne({
+    _id: req.params.id
+  }, {
+    $push: {
+      "users": newUser
+    }
+  });
+
+  res.json({
+    code: 200
+  });
+}
 
 module.exports.updateRoleMember = async (req, res) => {
   const roomChat = await roomChatModel.findOne({
