@@ -46,7 +46,7 @@ module.exports.chat = async (req, res) => {
   }
 
   res.render("client/pages/chat/index.pug", {
-    pageTitle: `${roomChat.title}`,
+    pageTitle: `${titleRoomChat.fullName}`,
     chats: chats,
     titleRoomChat: titleRoomChat,
     roleUser: roleUser,
